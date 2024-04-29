@@ -25,6 +25,16 @@ public class Main {
             // Trying to modify balance as non-admin
             bank.modifyBalance("user1", "0001", 500);
             System.out.println("Attempted Account Balance for 0001 by non-admin: " + bank.getAccountBalance("0001"));
+            bank.modifyBalance("user1", "0001", 500);  // Non-admin attempt
+            System.out.println("Attempted Account Balance for 0001 by non-admin: " + bank.getAccountBalance("0001"));
+
+
+            // Simulating transfer request ---  Request to transfer from 0001 to 0002
+            bank.requestTransfer("admin", "0001", "0002", 500);
+
+            bank.processTransferRequests("admin");
+            System.out.println("Post-transfer Account Balance for 0001: " + bank.getAccountBalance("0001"));
+            System.out.println("Post-transfer Account Balance for 0002: " + bank.getAccountBalance("0002"));
         }
     }
 }
