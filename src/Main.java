@@ -11,7 +11,7 @@ public class Main {
         Bank bank = new Bank();
         User admin = bank.createAdminUser("admin", "password");
         if (admin != null) {
-            // Using admin's username to create accounts
+            // Using admin username to create accounts
             bank.createAccount("admin", "0001", "nareg", 6750, "saving");
             bank.createAccount("admin", "0002", "admin", 100000, "checking");
 
