@@ -38,8 +38,6 @@ public class Main {
             bank.processTransferRequests("admin");
             System.out.println("Post-transfer Account Balance for 0001: " + bank.getAccountBalance("0001"));
             System.out.println("Post-transfer Account Balance for 0002: " + bank.getAccountBalance("0002"));
-
-
         }
     }
 }
