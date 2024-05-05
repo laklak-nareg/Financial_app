@@ -15,9 +15,17 @@ public class Bank {
     public void createAccount(String userId, String accountNumber, String accountHolder, double initialBalance, String accountType) {
         User user = users.get(userId);
         if( user !=null && "admin".equals(user.getRole())){
-            Account newAccount = new Account(accountNumber, accountHolder, initialBalance, accountType);
+            Account newAccount = null;
+            if("savings".equalsIgnoreCase(accountType)) {
+                newAccount = new SavingsAccount(accountNumber,accountHolder,initialBalance);
+            } else if ("checking".equalsIgnoreCase((accountType))) {
+                newAccount = new CheckingAccount(accountNumber,accountHolder,initialBalance);
+            } else {
+                System.out.println("invalid account type specified");
+                return;
+            }
             accounts.put(accountNumber, newAccount);
-            System.out.println("Account created successfully");
+            System.out.println("Account created successfully:  "+ accountType + "  "+ accountHolder+ " with initial balance of:  "+ initialBalance);
         } else {
             System.out.println("only admin can create accounts");
         }

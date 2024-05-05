@@ -89,4 +89,41 @@ public class Account {
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
+
+    protected void applyInterest(){
+
+    }
+}
+
+
+class SavingsAccount extends Account {
+    private static final double INTEREST_RATE = 0.05;
+
+    public SavingsAccount(String accountNumber, String accountHolder, double initialBalance) {
+        super(accountNumber,accountHolder,initialBalance, "savings");
+    }
+
+    @Override
+    protected void applyInterest(){
+        double interest = getBalance() * INTEREST_RATE;
+        super.deposit(interest);
+        System.out.println(" Interest applied to Savings Account:  "+ interest);
+
+    }
+}
+
+class CheckingAccount extends Account {
+    private static final double INTEREST_RATE = 0.01;
+
+    public CheckingAccount(String accountNumber, String accountHolder, double initialBalance) {
+        super(accountNumber,accountHolder,initialBalance, "checking");
+    }
+
+    @Override
+    protected void applyInterest(){
+        double interest = getBalance() * INTEREST_RATE;
+        super.deposit(interest);
+        System.out.println(" Interest applied to Savings Account:  "+ interest);
+
+    }
 }
