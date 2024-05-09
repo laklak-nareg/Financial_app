@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ArrayList;
+import core.Account.SavingsAccount;
+import core.Account.CheckingAccount;
 
 public class Bank {
     private static User adminUser = null;
 
     private Map<String, Account> accounts = new HashMap<>();
-    private Map<String, User> users = new HashMap<>();
+    private Map<String, User> users = new HashMap<>(); // hash and string // need OOP 4 main ideas // need UI
     private ArrayList<TransferRequest> transferRequests = new ArrayList<>();
 
     public void createAccount(String userId, String accountNumber, String accountHolder, double initialBalance, String accountType) {
