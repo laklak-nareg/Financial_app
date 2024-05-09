@@ -2,23 +2,22 @@ package core;
 
 import java.util.Map;
 
-public class Account {
+public abstract class Account {
 
     private String accountNumber;
     private String accountHolder;
     private double balance;
     private String accountType;
-    private static final String ADMIN_TOKEN = "someSecretToken"; // simple admin token;
 
     private void adjustBalance(double amount){
-        balance = balance + amount;
+        balance += amount;
     }
 
     public void adminAdjustBalance(String userId, double amount, Map<String, User> users){
         User user = users.get(userId);
         if(user != null && "admin".equals(user.getRole())) {
             adjustBalance(amount);
-            System.out.println("Balance been adjusted by admin. New Balance: " +this.balance);
+            System.out.println("Balance been adjusted by admin. New Balance: " + this.balance);
         } else {
             if (user == null) {
                 System.out.println("User ID not found");
@@ -29,11 +28,11 @@ public class Account {
     }
 
     // constructor to initialize an account
-    public Account(String accountNumber, String accountHolder, double initialBalance,String accounttype){
+    public Account(String accountNumber, String accountHolder, double initialBalance, String accountType){
         this.accountNumber = accountNumber;
         this.accountHolder = accountHolder;
         this.balance = initialBalance;
-        this.accountType = accounttype;
+        this.accountType = accountType;
     }
 
     // deposit method
@@ -45,19 +44,22 @@ public class Account {
             System.out.println("Invalid amount, Enter a positive number");
         }
     }
+
     // withdraw method
-    public void withdraw (double amount) {
+    public void withdraw(double amount) {
         if (amount > 0 && balance >= amount){
             adjustBalance(-amount);
-            System.out.println("Withdraw successful , the updated amount left in balance is :  " + balance);
-        } else if (amount <=0) {
-            System.out.println("invalid amount, enter a positive amount");
-        } else{
+            System.out.println("Withdraw successful, the updated amount left in balance is: " + balance);
+        } else if (amount <= 0) {
+            System.out.println("Invalid amount, enter a positive amount");
+        } else {
             System.out.println("Insufficient funds");
         }
     }
 
-    // Getters and setters
+    protected abstract void applyInterest();
+
+    // getters and setters
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -75,7 +77,7 @@ public class Account {
     }
 
     public double getBalance() {
-        return balance;
+        return this.balance;
     }
 
     public void setBalance(double balance) {
@@ -90,40 +92,33 @@ public class Account {
         this.accountType = accountType;
     }
 
-    protected void applyInterest(){
+    public static class SavingsAccount extends Account {
+        private static final double INTEREST_RATE = 0.05;
 
-    }
-}
+        public SavingsAccount(String accountNumber, String accountHolder, double initialBalance) {
+            super(accountNumber, accountHolder, initialBalance, "savings");
+        }
 
-
-class SavingsAccount extends Account {
-    private static final double INTEREST_RATE = 0.05;
-
-    public SavingsAccount(String accountNumber, String accountHolder, double initialBalance) {
-        super(accountNumber,accountHolder,initialBalance, "savings");
-    }
-
-    @Override
-    protected void applyInterest(){
-        double interest = getBalance() * INTEREST_RATE;
-        super.deposit(interest);
-        System.out.println(" Interest applied to Savings Account:  "+ interest);
-
-    }
-}
-
-class CheckingAccount extends Account {
-    private static final double INTEREST_RATE = 0.01;
-
-    public CheckingAccount(String accountNumber, String accountHolder, double initialBalance) {
-        super(accountNumber,accountHolder,initialBalance, "checking");
+        @Override
+        protected void applyInterest() {
+            double interest = getBalance() * INTEREST_RATE;
+            super.deposit(interest);
+            System.out.println("Interest applied to Savings Account: " + interest);
+        }
     }
 
-    @Override
-    protected void applyInterest(){
-        double interest = getBalance() * INTEREST_RATE;
-        super.deposit(interest);
-        System.out.println(" Interest applied to Savings Account:  "+ interest);
+    public static class CheckingAccount extends Account {
+        private static final double INTEREST_RATE = 0.01;
 
+        public CheckingAccount(String accountNumber, String accountHolder, double initialBalance) {
+            super(accountNumber, accountHolder, initialBalance, "checking");
+        }
+
+        @Override
+        protected void applyInterest() {
+            double interest = getBalance() * INTEREST_RATE;
+            super.deposit(interest);
+            System.out.println("Interest applied to Checking Account: " + interest);
+        }
     }
 }
