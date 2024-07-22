@@ -1,2 +1,2 @@
 # Financial_app
-A class collaboration with OOP to make a financial app
+A collaboration with OOP to make a financial app
